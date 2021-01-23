@@ -1,21 +1,18 @@
 package ExAssRep;
 
-import javafx.util.Pair;
+//import javafx.util.Pair;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 import java.util.regex.Pattern;
 
 public class TrainMethodExceptionScoreCalculation {
     private static HashMap<String,Integer> n_m=new HashMap<>();
-    private static HashMap<Pair<String,String>,Integer> n_me=new HashMap<>();
-    private static HashMap<Pair<String,String>,Double> mu_m_e=new HashMap<>();
+    private static HashMap<Map.Entry<String,String>,Integer> n_me=new HashMap<>();
+    private static HashMap<Map.Entry<String,String>,Double> mu_m_e=new HashMap<>();
     private static HashMap<String,Double> ro_m=new HashMap<>();
     private static PrintWriter pwLinesWithNegIndex;
     public static void main(String[] args) {
@@ -32,7 +29,7 @@ public class TrainMethodExceptionScoreCalculation {
                 calculateMus();
                 String[] filePathSplit=args[0].split(Pattern.quote(System.getProperty("file.separator")));
                 PrintWriter pw=new PrintWriter("Mus_"+filePathSplit[filePathSplit.length-1]);
-                for (Pair<String,String> methodExcepPair:mu_m_e.keySet()){
+                for (Map.Entry<String,String> methodExcepPair:mu_m_e.keySet()){
                     String lineToWrite= methodExcepPair.getKey()+":"+methodExcepPair.getValue()+":"+mu_m_e.get(methodExcepPair);
                     pw.write(lineToWrite+System.lineSeparator());
                 }
@@ -97,7 +94,7 @@ public class TrainMethodExceptionScoreCalculation {
     private static void putN_me(ArrayList<String> methods,String exception){
         for(String method:methods){
            // for (String excep:exceptions){
-                Pair<String,String> methodExcepPair=new Pair<>(method,exception);
+            Map.Entry<String,String> methodExcepPair=new AbstractMap.SimpleImmutableEntry<>(method,exception);
                 if (n_me.containsKey(methodExcepPair)){
                     n_me.put(methodExcepPair,n_me.get(methodExcepPair)+1);
                 } else {
@@ -108,7 +105,7 @@ public class TrainMethodExceptionScoreCalculation {
     }
 
     private static void calculateMus(){
-        for (Pair<String,String> methodExcepPair:n_me.keySet()){
+        for (Map.Entry<String,String> methodExcepPair:n_me.keySet()){
             String method=methodExcepPair.getKey();
             int methodFreq=n_m.get(method);
             double mu=n_me.get(methodExcepPair)/((double)methodFreq);
@@ -120,7 +117,7 @@ public class TrainMethodExceptionScoreCalculation {
         }
     }
     private static void calculateRos(){
-        for (Pair<String,String> methodExcepPair:mu_m_e.keySet()){
+        for (Map.Entry<String,String> methodExcepPair:mu_m_e.keySet()){
             String method=methodExcepPair.getKey();
             double mu_meth=mu_m_e.get(methodExcepPair);
             if(ro_m.containsKey(method)){

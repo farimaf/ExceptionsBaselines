@@ -85,6 +85,8 @@ public class getTrainTestSet {
 //                System.out.println("num not 2 num sign: "+not2numsign);
                 System.out.println("file len: "+lineNum);
                 System.out.println("len 3 num: "+len3);
+                System.out.println("train set len "+trainSetNames.size());
+                System.out.println("test set len "+testSetNames.size());
 
                 for (int key:lens.keySet()){
                     System.out.println(key+ ": "+ lens.get(key));

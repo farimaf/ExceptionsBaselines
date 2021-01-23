@@ -9,8 +9,8 @@ import java.util.HashSet;
 import java.util.regex.Pattern;
 
 public class getTrainTestSet {
-    private static HashSet<String> trainSetNames=new HashSet<>();
-    private static HashSet<String> testSetNames=new HashSet<>();
+    private static HashMap<String,Integer> trainSetNames=new HashMap<>();
+    private static HashMap<String,Integer> testSetNames=new HashMap<>();
 
     public static void main(String[] args) {
         if(args.length==3){
@@ -32,7 +32,14 @@ public class getTrainTestSet {
                 while ((line= bf.readLine())!=null){
                     String[] lineSplit=line.split("@#@");
                     String[] lineMethodSplit=lineSplit[1].split("#");
-                    trainSetNames.add(lineSplit[0]+"#"+lineMethodSplit[2]);
+                    if (trainSetNames.containsKey(lineSplit[0]+"#"+lineMethodSplit[2])){
+                        trainSetNames.put(lineSplit[0]+"#"+lineMethodSplit[2],trainSetNames.get(lineSplit[0]+"#"+lineMethodSplit[2])+1);
+
+                    }
+                    else{
+                        trainSetNames.put(lineSplit[0]+"#"+lineMethodSplit[2],1);
+                    }
+
                 }
 
                 bf = new BufferedReader(new FileReader(testsetPath));
@@ -40,18 +47,19 @@ public class getTrainTestSet {
                 while ((line= bf.readLine())!=null){
                     String[] lineSplit=line.split("@#@");
                     String[] lineMethodSplit=lineSplit[1].split("#");
-                    testSetNames.add(lineSplit[0]+"#"+lineMethodSplit[2]);
-//                    pwDebug.write(lineSplit[0]+"#"+lineMethodSplit[2]+"#"+lineMethodSplit[3]+System.lineSeparator());
+                    if (testSetNames.containsKey(lineSplit[0]+"#"+lineMethodSplit[2])){
+                        testSetNames.put(lineSplit[0]+"#"+lineMethodSplit[2],testSetNames.get(lineSplit[0]+"#"+lineMethodSplit[2])+1);
+
+                    }
+                    else{
+                        testSetNames.put(lineSplit[0]+"#"+lineMethodSplit[2],1);
+                    }
                 }
 
                 bf = new BufferedReader(new FileReader(mainfilePath));
                 line="";
-                int negativeIndexes=0;
-                int len3=0;
-                int lineNum=0;
-                HashMap<Integer,Integer> lens=new HashMap<>();
+
                 while ((line= bf.readLine())!=null){
-                    lineNum++;
                     String[] lineSplit=line.split("@#@");
                     String[] lineMethodSplit=lineSplit[1].split("#");
 //                    if(lens.containsKey(lineMethodSplit.length)){
@@ -62,7 +70,7 @@ public class getTrainTestSet {
 //                    }
 
                     String whatToLook=lineSplit[0]+"#"+lineMethodSplit[1];
-                    String[] indexes=lineMethodSplit[2].split(",");
+//                    String[] indexes=lineMethodSplit[2].split(",");
 //                    System.out.println(indexes[0]);
 //                    System.out.println(indexes[1]);
 //                    if(indexes[0].equals("-1") || indexes[1].equals("-1")){
@@ -73,12 +81,16 @@ public class getTrainTestSet {
 //                    }
 //                    else {
 //                        len3++;
-                        if (trainSetNames.contains(whatToLook)) {
-                            pwTrain.write(line + System.lineSeparator());
-                            trainSetNames.remove(whatToLook);//avoid one entry being used further for lines with same path and same exception
-                        } else if (testSetNames.contains(whatToLook)) {
-                            pwTest.write(line + System.lineSeparator());
-                            testSetNames.remove(whatToLook);
+                        if (trainSetNames.containsKey(whatToLook)) {
+                            if(trainSetNames.get(whatToLook)>0) {
+                                pwTrain.write(line + System.lineSeparator());
+                                trainSetNames.put(whatToLook,trainSetNames.get(whatToLook)-1);
+                            }
+                        } else if (testSetNames.containsKey(whatToLook)) {
+                            if(testSetNames.get(whatToLook)>0) {
+                                pwTest.write(line + System.lineSeparator());
+                                testSetNames.put(whatToLook,testSetNames.get(whatToLook)-1);
+                            }
 
                         }
 //                        else {

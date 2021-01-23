@@ -42,20 +42,32 @@ public class getTrainTestSet {
 
                 bf = new BufferedReader(new FileReader(mainfilePath));
                 line="";
+                int negativeIndexes=0;
+                int not2numsign=0;
                 while ((line= bf.readLine())!=null){
                     String[] lineSplit=line.split("@#@");
                     String[] lineMethodSplit=lineSplit[1].split("#");
                     String whatToLook=lineSplit[0]+"#"+lineMethodSplit[1]+"#"+lineMethodSplit[2];
-                    if(trainSetNames.contains(whatToLook)){
-                        pwTrain.write(line+System.lineSeparator());
+                    String[] indexes=lineMethodSplit[2].split(",");
+                    if(indexes[0].equals("-1") || indexes[1].equals("-1")){
+                        negativeIndexes++;
                     }
-                    else if(testSetNames.contains(whatToLook)){
-                        pwTest.write(line+System.lineSeparator());
+                    else if (lineMethodSplit.length!=2){
+                        not2numsign++;
+                    }
+                    else {
+                        System.out.println(whatToLook);
+                        if (trainSetNames.contains(whatToLook)) {
+                            pwTrain.write(line + System.lineSeparator());
+                        } else if (testSetNames.contains(whatToLook)) {
+                            pwTest.write(line + System.lineSeparator());
+                        }
                     }
                 }
 
                 pwTest.close();
                 pwTrain.close();
+                System.out.println("num neg index: "+negativeIndexes);
             }
             catch (IOException e){
                 e.printStackTrace();

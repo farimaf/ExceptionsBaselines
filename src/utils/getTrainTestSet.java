@@ -23,13 +23,13 @@ public class getTrainTestSet {
 
                 PrintWriter pwTrain=new PrintWriter("Train_"+mainfilePathSplit[mainfilePathSplit.length-1]);
                 PrintWriter pwTest=new PrintWriter("Test_"+mainfilePathSplit[mainfilePathSplit.length-1]);
-
+                System.out.println();
                 BufferedReader bf = new BufferedReader(new FileReader(trainsetPath));
                 String line="";
                 while ((line= bf.readLine())!=null){
                     String[] lineSplit=line.split("@#@");
                     String[] lineMethodSplit=lineSplit[1].split("#");
-                    trainSetNames.add(lineSplit[0]+"#"+lineMethodSplit[1]+"#"+lineMethodSplit[2]);
+                    trainSetNames.add(lineSplit[0]+"#"+lineMethodSplit[2]+"#"+lineMethodSplit[3]);
                 }
 
                 bf = new BufferedReader(new FileReader(testsetPath));
@@ -37,7 +37,7 @@ public class getTrainTestSet {
                 while ((line= bf.readLine())!=null){
                     String[] lineSplit=line.split("@#@");
                     String[] lineMethodSplit=lineSplit[1].split("#");
-                    testSetNames.add(lineSplit[0]+"#"+lineMethodSplit[1]+"#"+lineMethodSplit[2]);
+                    testSetNames.add(lineSplit[0]+"#"+lineMethodSplit[2]+"#"+lineMethodSplit[3]);
                 }
 
                 bf = new BufferedReader(new FileReader(mainfilePath));

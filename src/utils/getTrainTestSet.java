@@ -68,6 +68,8 @@ public class getTrainTestSet {
                 pwTest.close();
                 pwTrain.close();
                 System.out.println("num neg index: "+negativeIndexes);
+                System.out.println("num not 2 num sign: "+not2numsign);
+
             }
             catch (IOException e){
                 e.printStackTrace();

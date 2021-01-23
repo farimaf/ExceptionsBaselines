@@ -44,9 +44,12 @@ public class getTrainTestSet {
                 line="";
                 int negativeIndexes=0;
                 int not2numsign=0;
+                int lineNum=0;
                 while ((line= bf.readLine())!=null){
+                    lineNum++;
                     String[] lineSplit=line.split("@#@");
                     String[] lineMethodSplit=lineSplit[1].split("#");
+                    System.out.println(lineMethodSplit.length);
                     String whatToLook=lineSplit[0]+"#"+lineMethodSplit[1]+"#"+lineMethodSplit[2];
                     String[] indexes=lineMethodSplit[2].split(",");
                     if(indexes[0].equals("-1") || indexes[1].equals("-1")){
@@ -69,10 +72,12 @@ public class getTrainTestSet {
                 pwTrain.close();
                 System.out.println("num neg index: "+negativeIndexes);
                 System.out.println("num not 2 num sign: "+not2numsign);
+                System.out.println("file len: "+lineNum);
 
             }
             catch (IOException e){
                 e.printStackTrace();
+                System.exit(0);
             }
         }
     }

@@ -52,7 +52,7 @@ public class getTrainTestSet {
                     String[] lineSplit=line.split("@#@");
                     String[] lineMethodSplit=lineSplit[1].split("#");
                     if(lens.containsKey(lineMethodSplit.length)){
-                        lens.put(lineMethodSplit.length,lens.get(lineMethodSplit)+1);
+                        lens.put(lineMethodSplit.length,lens.get(lineMethodSplit.length)+1);
                     }
                     else {
                         lens.put(lineMethodSplit.length,1);

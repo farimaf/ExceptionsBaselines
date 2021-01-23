@@ -44,7 +44,7 @@ public class getTrainTestSet {
                 bf = new BufferedReader(new FileReader(mainfilePath));
                 line="";
                 int negativeIndexes=0;
-                int not2numsign=0;
+                int len3=0;
                 int lineNum=0;
                 HashMap<Integer,Integer> lens=new HashMap<>();
                 while ((line= bf.readLine())!=null){
@@ -60,13 +60,16 @@ public class getTrainTestSet {
 
                     String whatToLook=lineSplit[0]+"#"+lineMethodSplit[1]+"#"+lineMethodSplit[2];
                     String[] indexes=lineMethodSplit[2].split(",");
+                    System.out.println(indexes[0]);
+                    System.out.println(indexes[1]);
                     if(indexes[0].equals("-1") || indexes[1].equals("-1")){
                         negativeIndexes++;
                     }
-                    else if (lineMethodSplit.length!=3){
-                        not2numsign++;
-                    }
+//                    else if (lineMethodSplit.length!=3){
+//                        not2numsign++;
+//                    }
                     else {
+                        len3++;
                         System.out.println(whatToLook);
                         if (trainSetNames.contains(whatToLook)) {
                             pwTrain.write(line + System.lineSeparator());
@@ -79,8 +82,10 @@ public class getTrainTestSet {
                 pwTest.close();
                 pwTrain.close();
                 System.out.println("num neg index: "+negativeIndexes);
-                System.out.println("num not 2 num sign: "+not2numsign);
+//                System.out.println("num not 2 num sign: "+not2numsign);
                 System.out.println("file len: "+lineNum);
+                System.out.println("len 3 num: "+len3);
+
                 for (int key:lens.keySet()){
                     System.out.println(key+ ": "+ lens.get(key));
                 }

@@ -62,31 +62,16 @@ public class getTrainTestSet {
                 while ((line= bf.readLine())!=null){
                     String[] lineSplit=line.split("@#@");
                     String[] lineMethodSplit=lineSplit[1].split("#");
-//                    if(lens.containsKey(lineMethodSplit.length)){
-//                        lens.put(lineMethodSplit.length,lens.get(lineMethodSplit.length)+1);
-//                    }
-//                    else {
-//                        lens.put(lineMethodSplit.length,1);
-//                    }
 
                     String whatToLook=lineSplit[0]+"#"+lineMethodSplit[1];
-//                    String[] indexes=lineMethodSplit[2].split(",");
-//                    System.out.println(indexes[0]);
-//                    System.out.println(indexes[1]);
-//                    if(indexes[0].equals("-1") || indexes[1].equals("-1")){
-//                        negativeIndexes++;
-//                    }
-//                    else if (lineMethodSplit.length!=3){
-//                        not2numsign++;
-//                    }
-//                    else {
-//                        len3++;
+
                         if (trainSetNames.containsKey(whatToLook)) {
                             if(trainSetNames.get(whatToLook)>0) {
                                 pwTrain.write(line + System.lineSeparator());
                                 trainSetNames.put(whatToLook,trainSetNames.get(whatToLook)-1);
                             }
-                        } else if (testSetNames.containsKey(whatToLook)) {
+                        }
+                        if (testSetNames.containsKey(whatToLook)) {
                             if(testSetNames.get(whatToLook)>0) {
                                 pwTest.write(line + System.lineSeparator());
                                 testSetNames.put(whatToLook,testSetNames.get(whatToLook)-1);

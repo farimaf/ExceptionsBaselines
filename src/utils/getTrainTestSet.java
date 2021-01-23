@@ -52,7 +52,7 @@ public class getTrainTestSet {
                     if(indexes[0].equals("-1") || indexes[1].equals("-1")){
                         negativeIndexes++;
                     }
-                    else if (lineMethodSplit.length!=2){
+                    else if (lineMethodSplit.length!=3){
                         not2numsign++;
                     }
                     else {

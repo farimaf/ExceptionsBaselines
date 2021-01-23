@@ -70,8 +70,7 @@ public class getTrainTestSet {
                                 pwTrain.write(line + System.lineSeparator());
                                 trainSetNames.put(whatToLook,trainSetNames.get(whatToLook)-1);
                             }
-                        }
-                        if (testSetNames.containsKey(whatToLook)) {
+                        } else if (testSetNames.containsKey(whatToLook)) {
                             if(testSetNames.get(whatToLook)>0) {
                                 pwTest.write(line + System.lineSeparator());
                                 testSetNames.put(whatToLook,testSetNames.get(whatToLook)-1);

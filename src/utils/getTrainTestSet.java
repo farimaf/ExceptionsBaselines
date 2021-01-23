@@ -24,6 +24,8 @@ public class getTrainTestSet {
 
                 PrintWriter pwTrain=new PrintWriter("Train_"+mainfilePathSplit[mainfilePathSplit.length-1]);
                 PrintWriter pwTest=new PrintWriter("Test_"+mainfilePathSplit[mainfilePathSplit.length-1]);
+                PrintWriter pwDebug=new PrintWriter("test.txt");
+
                 System.out.println();
                 BufferedReader bf = new BufferedReader(new FileReader(trainsetPath));
                 String line="";
@@ -39,6 +41,7 @@ public class getTrainTestSet {
                     String[] lineSplit=line.split("@#@");
                     String[] lineMethodSplit=lineSplit[1].split("#");
                     testSetNames.add(lineSplit[0]+"#"+lineMethodSplit[2]+"#"+lineMethodSplit[3]);
+                    pwDebug.write(lineSplit[0]+"#"+lineMethodSplit[2]+"#"+lineMethodSplit[3]+System.lineSeparator());
                 }
 
                 bf = new BufferedReader(new FileReader(mainfilePath));
@@ -60,8 +63,8 @@ public class getTrainTestSet {
 
                     String whatToLook=lineSplit[0]+"#"+lineMethodSplit[1]+"#"+lineMethodSplit[2];
                     String[] indexes=lineMethodSplit[2].split(",");
-                    System.out.println(indexes[0]);
-                    System.out.println(indexes[1]);
+//                    System.out.println(indexes[0]);
+//                    System.out.println(indexes[1]);
                     if(indexes[0].equals("-1") || indexes[1].equals("-1")){
                         negativeIndexes++;
                     }
@@ -70,17 +73,21 @@ public class getTrainTestSet {
 //                    }
                     else {
                         len3++;
-                        System.out.println(whatToLook);
                         if (trainSetNames.contains(whatToLook)) {
                             pwTrain.write(line + System.lineSeparator());
                         } else if (testSetNames.contains(whatToLook)) {
                             pwTest.write(line + System.lineSeparator());
+                        }
+                        else {
+                            System.out.println(whatToLook);
+
                         }
                     }
                 }
 
                 pwTest.close();
                 pwTrain.close();
+                pwDebug.close();
                 System.out.println("num neg index: "+negativeIndexes);
 //                System.out.println("num not 2 num sign: "+not2numsign);
                 System.out.println("file len: "+lineNum);

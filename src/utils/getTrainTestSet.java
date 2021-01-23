@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.regex.Pattern;
 
@@ -45,11 +46,18 @@ public class getTrainTestSet {
                 int negativeIndexes=0;
                 int not2numsign=0;
                 int lineNum=0;
+                HashMap<Integer,Integer> lens=new HashMap<>();
                 while ((line= bf.readLine())!=null){
                     lineNum++;
                     String[] lineSplit=line.split("@#@");
                     String[] lineMethodSplit=lineSplit[1].split("#");
-                    System.out.println(lineMethodSplit.length);
+                    if(lens.containsKey(lineMethodSplit.length)){
+                        lens.put(lineMethodSplit.length,lens.get(lineMethodSplit)+1);
+                    }
+                    else {
+                        lens.put(lineMethodSplit.length,1);
+                    }
+
                     String whatToLook=lineSplit[0]+"#"+lineMethodSplit[1]+"#"+lineMethodSplit[2];
                     String[] indexes=lineMethodSplit[2].split(",");
                     if(indexes[0].equals("-1") || indexes[1].equals("-1")){
@@ -73,6 +81,9 @@ public class getTrainTestSet {
                 System.out.println("num neg index: "+negativeIndexes);
                 System.out.println("num not 2 num sign: "+not2numsign);
                 System.out.println("file len: "+lineNum);
+                for (int key:lens.keySet()){
+                    System.out.println(key+ ": "+ lens.get(key));
+                }
 
             }
             catch (IOException e){

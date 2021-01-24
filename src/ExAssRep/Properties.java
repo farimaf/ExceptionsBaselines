@@ -16,11 +16,9 @@ public class Properties {
             pathToExceptionsFile="C:\\Users\\Farima\\OneDrive\\Data\\PhD\\Exception Type Recommendation\\ExAssistReplication\\" +
                     "EvalBaseLines\\ExcpetionsToPredict.txt";
         } else if(mode.equals("linux")){
-            pathToMusFile="C:\\Users\\Farima\\OneDrive\\Data\\PhD\\Exception Type Recommendation\\ExAssistReplication" +
-                    "\\EvalBaseLines\\Mus_PerTryNoRuntimeLiteral_ProcessedFilesSample.txt";
-            pathToRosFile="C:\\Users\\Farima\\OneDrive\\Data\\PhD\\Exception Type Recommendation\\ExAssistReplication\\" +
-                    "EvalBaseLines\\Ros_PerTryNoRuntimeLiteral_ProcessedFilesSample.txt";
-            pathToExceptionsFile="ExcpetionsToPredict.txt";
+            pathToMusFile="/scratch/mondego/local/farima/drex/baselines/ExceptionsBaselines/src/Mus_Train_PerTryNoRunTimeLiteral_Consolidated_ExAssist.txt";
+            pathToRosFile="/scratch/mondego/local/farima/drex/baselines/ExceptionsBaselines/src/Ros_Train_PerTryNoRunTimeLiteral_Consolidated_ExAssist.txt";
+            pathToExceptionsFile="/scratch/mondego/local/farima/drex/baselines/ExceptionsBaselines/ExcpetionsToPredict.txt";
         }
     }
 

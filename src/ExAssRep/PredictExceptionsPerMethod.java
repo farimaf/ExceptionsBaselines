@@ -119,12 +119,16 @@ public class PredictExceptionsPerMethod {
                 int numTop3True=0;
                 int numTop5True=0;
                 int numTop10True=0;
+                int numNoPredictions=0;
                 for(String method:allPredictions.keySet()) {
 //                    if (ro_c.get(method) > pecentile50Codes) {
                     String predLineToWrite = method + "@#@";
                     int counter = 0;
                     LinkedHashMap<String,Double> predictions=allPredictions.get(method);
                     for (String excePred : predictions.keySet()) {
+                        if(counter==0 && predictions.get(excePred)==0){
+                            numNoPredictions++;
+                        }
                         predLineToWrite += excePred + ":" + predictions.get(excePred) + ",";
                         if (++counter > 10) {
                             break;
@@ -142,6 +146,7 @@ public class PredictExceptionsPerMethod {
                 pwPred.close();
                 pwRo.close();
                 System.out.println("Num all samples: "+allPredictions.size());
+                System.out.println("Num no predictions: "+numNoPredictions);
                 System.out.println("Num top 1 true predictions: "+numTop1True);
                 System.out.println("Num top 2 true predictions: "+numTop2True);
                 System.out.println("Num top 3 true predictions: "+numTop3True);
@@ -212,7 +217,9 @@ public class PredictExceptionsPerMethod {
     private static Double findPercentile(double percentile) {
         ArrayList<Double> ros=new ArrayList<>();
         for(String method:ro_c.keySet()){
-            ros.add(ro_m.get(method));
+            if (ro_m.get(method)!=1.0) {
+                ros.add(ro_m.get(method));
+            }
         }
         Collections.sort(ros);
         int index = (int) Math.ceil(percentile / 100.0 * ros.size());

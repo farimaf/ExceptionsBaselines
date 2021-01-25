@@ -177,7 +177,7 @@ public class PredictExceptionsPerMethod {
         int counter=0;
         for(String pred:predictions.keySet()){
             counter++;
-            if(pred.equals(trueLabel) && counter<=k){
+            if(pred.equals(trueLabel) && predictions.get(pred)>0.0 && counter<=k){
                 isTrue=true;
                 break;
             }

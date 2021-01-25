@@ -98,7 +98,8 @@ public class PredictExceptionsPerMethod {
                     String[] methods=methodExcepSplit[0].split(",");
                     String[] exceptions=methodExcepSplit[1].split(",");
                     String exceptionToConsider=exceptions[0];//cause we only consider the first exception type
-                    trueLabels.put(lineSplit[0]+"#"+methodExcepSplit[1]+"#"+methodExcepSplit[2],exceptionToConsider);
+                    trueLabels.put(line,exceptionToConsider);
+//                    trueLabels.put(lineSplit[0]+"#"+methodExcepSplit[1]+"#"+methodExcepSplit[2],exceptionToConsider);
                     String[] indexes=methodExcepSplit[2].split(",");
                     int startTryIndex=Integer.parseInt(indexes[0]);
                     int endTryIndex=Integer.parseInt(indexes[1]);

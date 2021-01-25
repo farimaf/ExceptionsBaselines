@@ -28,6 +28,7 @@ public class AddLineInfo {
                     int startIndex=Integer.parseInt(indexes[0]);
                     int endIndex=Integer.parseInt(indexes[1]);
                     Integer[] lineNums=new Integer[2];
+                    System.out.println(line);
                     if(startIndex>-1 && endIndex>-1) {
                         String startToken=bodyTokensSplit[startIndex].endsWith(")")?bodyTokensSplit[startIndex].substring(0,bodyTokensSplit[startIndex].length()-1):bodyTokensSplit[startIndex];
                         String endToken=bodyTokensSplit[endIndex];

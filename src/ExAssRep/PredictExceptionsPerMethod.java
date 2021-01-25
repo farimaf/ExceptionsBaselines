@@ -90,7 +90,9 @@ public class PredictExceptionsPerMethod {
 
                 BufferedReader bf = new BufferedReader(new FileReader(args[0]));
                 String line="";
+                int numLine=0;
                 while ((line= bf.readLine())!=null){
+                    numLine++;
                     String[] lineSplit=line.split("@#@");
                     String[] methodExcepSplit=lineSplit[1].split("#");
                     String[] methods=methodExcepSplit[0].split(",");
@@ -146,6 +148,8 @@ public class PredictExceptionsPerMethod {
                 pwPred.close();
                 pwRo.close();
                 System.out.println("Num all samples: "+allPredictions.size());
+                System.out.println("Num rows in true labels: "+trueLabels.size());
+                System.out.println("total num lines read: "+numLine);
                 System.out.println("Num no predictions: "+numNoPredictions);
                 System.out.println("Num top 1 true predictions: "+numTop1True);
                 System.out.println("Num top 2 true predictions: "+numTop2True);

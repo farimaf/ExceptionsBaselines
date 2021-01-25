@@ -87,6 +87,7 @@ public class PredictExceptionsPerMethod {
                 String[] filePathSplit=args[0].split(Pattern.quote(System.getProperty("file.separator")));
                 PrintWriter pwRo=new PrintWriter(predDir+File.separator+"Ros_code_"+filePathSplit[filePathSplit.length-1]);
                 PrintWriter pwPred=new PrintWriter(predDir+File.separator+"Predictions_"+filePathSplit[filePathSplit.length-1]);
+                PrintWriter pwLinesWithNegIndex=new PrintWriter(predDir+File.separator+"LinesWithNegIndexes.txt");
 
                 BufferedReader bf = new BufferedReader(new FileReader(args[0]));
                 String line="";
@@ -98,8 +99,7 @@ public class PredictExceptionsPerMethod {
                     String[] methods=methodExcepSplit[0].split(",");
                     String[] exceptions=methodExcepSplit[1].split(",");
                     String exceptionToConsider=exceptions[0];//cause we only consider the first exception type
-                    trueLabels.put(line,exceptionToConsider);
-//                    trueLabels.put(lineSplit[0]+"#"+methodExcepSplit[1]+"#"+methodExcepSplit[2],exceptionToConsider);
+                    trueLabels.put(lineSplit[0]+"#"+methodExcepSplit[1]+"#"+methodExcepSplit[2],exceptionToConsider);
                     String[] indexes=methodExcepSplit[2].split(",");
                     int startTryIndex=Integer.parseInt(indexes[0]);
                     int endTryIndex=Integer.parseInt(indexes[1]);
@@ -113,6 +113,9 @@ public class PredictExceptionsPerMethod {
                         pwRo.write(lineSplit[0]+"@#@"+roCurrentCode+System.lineSeparator());
                         LinkedHashMap<String,Double> predictions=predictExcepMethod(methodsInTryBlock);
                         allPredictions.put(lineSplit[0]+"#"+methodExcepSplit[1]+"#"+methodExcepSplit[2],predictions);
+                    }
+                    else {
+                        pwLinesWithNegIndex.write(line+System.lineSeparator());
                     }
 
                 }
@@ -148,6 +151,7 @@ public class PredictExceptionsPerMethod {
                 }
                 pwPred.close();
                 pwRo.close();
+                pwLinesWithNegIndex.close();
                 System.out.println("Num all samples: "+allPredictions.size());
                 System.out.println("Num rows in true labels: "+trueLabels.size());
                 System.out.println("total num lines read: "+numLine);

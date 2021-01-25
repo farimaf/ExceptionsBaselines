@@ -21,7 +21,7 @@ public class TrainMethodExceptionScoreCalculation {
                     directory.mkdir();
                 }
 
-                pwLinesWithNegIndex=new PrintWriter(trainDir+File.separator+"LinesWithNegIndexes");
+                pwLinesWithNegIndex=new PrintWriter(trainDir+File.separator+"LinesWithNegIndexes.txt");
                 BufferedReader bf = new BufferedReader(new FileReader(args[0]));
                 String line="";
                 while ((line= bf.readLine())!=null){

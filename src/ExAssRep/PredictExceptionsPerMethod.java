@@ -109,7 +109,7 @@ public class PredictExceptionsPerMethod {
                         ro_c.put(lineSplit[0],roCurrentCode);
                         pwRo.write(lineSplit[0]+"@#@"+roCurrentCode+System.lineSeparator());
                         LinkedHashMap<String,Double> predictions=predictExcepMethod(methodsInTryBlock);
-                        allPredictions.put(lineSplit[0],predictions);
+                        allPredictions.put(lineSplit[0]+"#"+methodExcepSplit[1]+"#"+methodExcepSplit[2],predictions);
                     }
 
                 }

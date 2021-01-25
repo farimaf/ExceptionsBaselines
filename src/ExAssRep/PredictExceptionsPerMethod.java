@@ -1,10 +1,7 @@
 package ExAssRep;
 
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 import java.util.*;
 import java.util.regex.Pattern;
 
@@ -14,8 +11,12 @@ public class PredictExceptionsPerMethod {
     private static HashMap<String,Double> ro_c=new HashMap<>();//key is code (method) address and line nums, val is the ro value for this code fragment
     private static HashMap<String,Double> ro_m=new HashMap<>();
     private static HashSet<String> allExceptions=new HashSet<>();
+    private static HashMap<String,LinkedHashMap<String,Double>> allPredictions=new HashMap<>();
+    private static HashMap<String,String> trueLabels=new HashMap<>();
+
     private static void loadMus(){
         try {
+
             BufferedReader bf = new BufferedReader(new FileReader(Properties.pathToMusFile));
             String line="";
             while ((line= bf.readLine())!=null){
@@ -71,6 +72,12 @@ public class PredictExceptionsPerMethod {
     }
     public static void main(String[] args) {
         if(args.length==3){
+            String predDir="predictions";
+            File directory = new File(predDir);
+            if (! directory.exists()){
+                directory.mkdir();
+            }
+
             double percentileValue=Double.parseDouble(args[1]);
             mode=args[2];
             loadExceptions();
@@ -78,8 +85,8 @@ public class PredictExceptionsPerMethod {
             loadRos(percentileValue);
             try {
                 String[] filePathSplit=args[0].split(Pattern.quote(System.getProperty("file.separator")));
-                PrintWriter pwRo=new PrintWriter("Ros_code_"+filePathSplit[filePathSplit.length-1]);
-                PrintWriter pwPred=new PrintWriter("Predictions_"+filePathSplit[filePathSplit.length-1]);
+                PrintWriter pwRo=new PrintWriter(predDir+File.separator+"Ros_code_"+filePathSplit[filePathSplit.length-1]);
+                PrintWriter pwPred=new PrintWriter(predDir+File.separator+"Predictions_"+filePathSplit[filePathSplit.length-1]);
 
                 BufferedReader bf = new BufferedReader(new FileReader(args[0]));
                 String line="";
@@ -89,6 +96,7 @@ public class PredictExceptionsPerMethod {
                     String[] methods=methodExcepSplit[0].split(",");
                     String[] exceptions=methodExcepSplit[1].split(",");
                     String exceptionToConsider=exceptions[0];//cause we only consider the first exception type
+                    trueLabels.put(lineSplit[0],exceptionToConsider);
                     String[] indexes=methodExcepSplit[2].split(",");
                     int startTryIndex=Integer.parseInt(indexes[0]);
                     int endTryIndex=Integer.parseInt(indexes[1]);
@@ -97,27 +105,48 @@ public class PredictExceptionsPerMethod {
                         for (int i = startTryIndex; i <= endTryIndex; i++) {
                             methodsInTryBlock.add(methods[i]);
                         }
-//                        ro_c.put(lineSplit[0],calculateRoForCodeFrag(methods));
                         double roCurrentCode=calculateRoForCodeFrag(methodsInTryBlock);
+                        ro_c.put(lineSplit[0],roCurrentCode);
                         pwRo.write(lineSplit[0]+"@#@"+roCurrentCode+System.lineSeparator());
                         LinkedHashMap<String,Double> predictions=predictExcepMethod(methodsInTryBlock);
-                        String predLineToWrite=lineSplit[0]+"@#@";
-                        int counter=0;
-                        for(String excePred:predictions.keySet()){
-                            predLineToWrite+=excePred+":"+predictions.get(excePred)+",";
-                            if(++counter>10){
-                                break;
-                            }
-                        }
-                        pwPred.write(predLineToWrite.substring(0,predLineToWrite.length()-1)+System.lineSeparator());
+                        allPredictions.put(lineSplit[0],predictions);
                     }
 
                 }
-//                String[] filePathSplit=args[0].split(Pattern.quote(System.getProperty("file.separator")));
-//                PrintWriter pw=new PrintWriter("Mus_"+filePathSplit[filePathSplit.length-1]);
-//                pw.close();
+                double pecentile50Codes=0;
+                int numTop1True=0;
+                int numTop2True=0;
+                int numTop3True=0;
+                int numTop5True=0;
+                int numTop10True=0;
+                for(String method:allPredictions.keySet()) {
+//                    if (ro_c.get(method) > pecentile50Codes) {
+                    String predLineToWrite = method + "@#@";
+                    int counter = 0;
+                    LinkedHashMap<String,Double> predictions=allPredictions.get(method);
+                    for (String excePred : predictions.keySet()) {
+                        predLineToWrite += excePred + ":" + predictions.get(excePred) + ",";
+                        if (++counter > 10) {
+                            break;
+                        }
+                    }
+                    pwPred.write(predLineToWrite.substring(0, predLineToWrite.length() - 1) + System.lineSeparator());
+                    numTop1True=isTrueTopK(trueLabels.get(method),1,predictions)?numTop1True+1:numTop1True;
+                    numTop2True=isTrueTopK(trueLabels.get(method),2,predictions)?numTop2True+1:numTop1True;
+                    numTop3True=isTrueTopK(trueLabels.get(method),3,predictions)?numTop3True+1:numTop1True;
+                    numTop5True=isTrueTopK(trueLabels.get(method),5,predictions)?numTop5True+1:numTop1True;
+                    numTop10True=isTrueTopK(trueLabels.get(method),10,predictions)?numTop10True+1:numTop1True;
+
+//                    }
+                }
                 pwPred.close();
                 pwRo.close();
+                System.out.println("Num all samples: "+allPredictions.size());
+                System.out.println("Num top 1 true predictions: "+numTop1True);
+                System.out.println("Num top 2 true predictions: "+numTop2True);
+                System.out.println("Num top 3 true predictions: "+numTop3True);
+                System.out.println("Num top 5 true predictions: "+numTop5True);
+                System.out.println("Num top 10 true predictions: "+numTop10True);
             }
             catch (IOException e){
                 e.printStackTrace();
@@ -129,6 +158,18 @@ public class PredictExceptionsPerMethod {
         }
     }
 
+    private static boolean isTrueTopK(String trueLabel,int k,LinkedHashMap<String,Double> predictions){
+        boolean isTrue=false;
+        int counter=0;
+        for(String pred:predictions.keySet()){
+            counter++;
+            if(pred.equals(trueLabel) && counter<=k){
+                isTrue=true;
+                break;
+            }
+        }
+        return isTrue;
+    }
     private static double calculateRoForCodeFrag(ArrayList<String> methods){
         double roCode;
         double ro_minuses_multiply=1;
@@ -168,21 +209,15 @@ public class PredictExceptionsPerMethod {
         predictions=sortByValue(mu_c_e_allexcep);
         return predictions;
     }
-//    private static boolean isExceptionProne(ArrayList<String> methods,double percentileVal){
-//        double roCode;
-//        double ro_minuses_multiply=1;
-//        for(String method:methods){
-//            if(ro_m.containsKey(method)){
-//                double ro_meth_minus=1-ro_m.get(method);
-//                ro_minuses_multiply=ro_minuses_multiply*ro_meth_minus;
-//            }
-//        }
-//        roCode=1-ro_minuses_multiply;
-//        if(roCode>percentileVal){
-//            return true;
-//        }
-//        return false;
-//    }
+    private static Double findPercentile(double percentile) {
+        ArrayList<Double> ros=new ArrayList<>();
+        for(String method:ro_c.keySet()){
+            ros.add(ro_m.get(method));
+        }
+        Collections.sort(ros);
+        int index = (int) Math.ceil(percentile / 100.0 * ros.size());
+        return ros.get(index-1);
+    }
     public static LinkedHashMap<String, Double> sortByValue(HashMap<String, Double> hm)
     {
         // Create a list from elements of HashMap

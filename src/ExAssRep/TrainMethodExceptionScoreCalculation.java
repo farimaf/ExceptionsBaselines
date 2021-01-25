@@ -123,16 +123,16 @@ public class TrainMethodExceptionScoreCalculation {
         for (Map.Entry<String,String> methodExcepPair:mu_m_e.keySet()){
             String method=methodExcepPair.getKey();
             double mu_meth=mu_m_e.get(methodExcepPair);
-            if((n_m.get(method)>1)||(n_m.get(method)==1 && mu_meth<1)) {
+//            if((n_m.get(method)>1)||(n_m.get(method)==1 && mu_meth<1)) {
                 if (ro_m.containsKey(method)) {
                     ro_m.put(method, ro_m.get(method) + mu_meth);
                 } else {
                     ro_m.put(method, mu_meth);
                 }
-            }
-            else {
-                ro_m.put(method, 0.0);
-            }
+//            }
+//            else {
+//                ro_m.put(method, 0.0);
+//            }
         }
     }
 
@@ -140,9 +140,9 @@ public class TrainMethodExceptionScoreCalculation {
 //        List<Double> ros=new ArrayList<Double>(ro_m.values());
         ArrayList<Double> rosNotOne=new ArrayList<>();
         for(String method:ro_m.keySet()){
-            if (ro_m.get(method)!=0.0){
+//            if (ro_m.get(method)!=0.0){
                 rosNotOne.add(ro_m.get(method));
-            }
+//            }
 //            else if(ro_m.get(method)==1.0 && n_m.get(method)>1) {//remove methods with only one occurrence and ro of 1)
 //                rosNotOne.add(ro_m.get(method));
 //            }

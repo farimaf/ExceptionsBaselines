@@ -120,6 +120,7 @@ public class PredictExceptionsPerMethod {
 
                 }
                 double pecentile50Codes=findPercentile(50);
+                System.out.println("percentile 50 ro "+pecentile50Codes);
                 int numTop1True=0;
                 int numTop2True=0;
                 int numTop3True=0;

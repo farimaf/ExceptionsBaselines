@@ -130,9 +130,18 @@ public class TrainMethodExceptionScoreCalculation {
     }
 
     public static Double findPercentile(double percentile) {
-        List<Double> ros=new ArrayList<Double>(ro_m.values());
-        Collections.sort(ros);
-        int index = (int) Math.ceil(percentile / 100.0 * ros.size());
-        return ros.get(index-1);
+//        List<Double> ros=new ArrayList<Double>(ro_m.values());
+        ArrayList<Double> rosNotOne=new ArrayList<>();
+        for(String method:ro_m.keySet()){
+            if (ro_m.get(method)!=1.0){
+                rosNotOne.add(ro_m.get(method));
+            }
+            else if(ro_m.get(method)==1.0 && n_m.get(method)>1) {//remove methods with only one occurrence and ro of 1)
+                rosNotOne.add(ro_m.get(method));
+            }
+        }
+        Collections.sort(rosNotOne);
+        int index = (int) Math.ceil(percentile / 100.0 * rosNotOne.size());
+        return rosNotOne.get(index-1);
     }
 }

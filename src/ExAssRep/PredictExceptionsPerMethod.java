@@ -109,7 +109,7 @@ public class PredictExceptionsPerMethod {
                             methodsInTryBlock.add(methods[i]);
                         }
                         double roCurrentCode=calculateRoForCodeFrag(methodsInTryBlock);
-                        ro_c.put(lineSplit[0],roCurrentCode);
+                        ro_c.put(lineSplit[0]+"#"+methodExcepSplit[1]+"#"+methodExcepSplit[2],roCurrentCode);
                         pwRo.write(lineSplit[0]+"@#@"+roCurrentCode+System.lineSeparator());
                         LinkedHashMap<String,Double> predictions=predictExcepMethod(methodsInTryBlock);
                         allPredictions.put(lineSplit[0]+"#"+methodExcepSplit[1]+"#"+methodExcepSplit[2],predictions);
@@ -119,7 +119,7 @@ public class PredictExceptionsPerMethod {
                     }
 
                 }
-                double pecentile50Codes=0;
+                double pecentile50Codes=findPercentile(50);
                 int numTop1True=0;
                 int numTop2True=0;
                 int numTop3True=0;
@@ -141,12 +141,13 @@ public class PredictExceptionsPerMethod {
                         }
                     }
                     pwPred.write(predLineToWrite.substring(0, predLineToWrite.length() - 1) + System.lineSeparator());
-                    numTop1True=isTrueTopK(trueLabels.get(method),1,predictions)?numTop1True+1:numTop1True;
-                    numTop2True=isTrueTopK(trueLabels.get(method),2,predictions)?numTop2True+1:numTop2True;
-                    numTop3True=isTrueTopK(trueLabels.get(method),3,predictions)?numTop3True+1:numTop3True;
-                    numTop5True=isTrueTopK(trueLabels.get(method),5,predictions)?numTop5True+1:numTop5True;
-                    numTop10True=isTrueTopK(trueLabels.get(method),10,predictions)?numTop10True+1:numTop10True;
-
+                    if(ro_c.get(method)>=pecentile50Codes) {
+                        numTop1True = isTrueTopK(trueLabels.get(method), 1, predictions) ? numTop1True + 1 : numTop1True;
+                        numTop2True = isTrueTopK(trueLabels.get(method), 2, predictions) ? numTop2True + 1 : numTop2True;
+                        numTop3True = isTrueTopK(trueLabels.get(method), 3, predictions) ? numTop3True + 1 : numTop3True;
+                        numTop5True = isTrueTopK(trueLabels.get(method), 5, predictions) ? numTop5True + 1 : numTop5True;
+                        numTop10True = isTrueTopK(trueLabels.get(method), 10, predictions) ? numTop10True + 1 : numTop10True;
+                    }
 //                    }
                 }
                 pwPred.close();
@@ -193,12 +194,12 @@ public class PredictExceptionsPerMethod {
                 ro_minuses_multiply=ro_minuses_multiply*ro_meth_minus;
             }
         }
-        if(ro_minuses_multiply==1.0){
-            roCode=-1;
-        }
-        else {
+//        if(ro_minuses_multiply==1.0){
+//            roCode=-1;
+//        }
+//        else {
             roCode = 1 - ro_minuses_multiply;
-        }
+//        }
         return roCode;
     }
 
@@ -226,9 +227,9 @@ public class PredictExceptionsPerMethod {
     private static Double findPercentile(double percentile) {
         ArrayList<Double> ros=new ArrayList<>();
         for(String method:ro_c.keySet()){
-            if (ro_m.get(method)!=1.0) {
-                ros.add(ro_m.get(method));
-            }
+//            if (ro_m.get(method)!=1.0) {
+                ros.add(ro_c.get(method));
+//            }
         }
         Collections.sort(ros);
         int index = (int) Math.ceil(percentile / 100.0 * ros.size());

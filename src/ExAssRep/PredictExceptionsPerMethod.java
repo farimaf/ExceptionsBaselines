@@ -132,10 +132,10 @@ public class PredictExceptionsPerMethod {
                     }
                     pwPred.write(predLineToWrite.substring(0, predLineToWrite.length() - 1) + System.lineSeparator());
                     numTop1True=isTrueTopK(trueLabels.get(method),1,predictions)?numTop1True+1:numTop1True;
-                    numTop2True=isTrueTopK(trueLabels.get(method),2,predictions)?numTop2True+1:numTop1True;
-                    numTop3True=isTrueTopK(trueLabels.get(method),3,predictions)?numTop3True+1:numTop1True;
-                    numTop5True=isTrueTopK(trueLabels.get(method),5,predictions)?numTop5True+1:numTop1True;
-                    numTop10True=isTrueTopK(trueLabels.get(method),10,predictions)?numTop10True+1:numTop1True;
+                    numTop2True=isTrueTopK(trueLabels.get(method),2,predictions)?numTop2True+1:numTop2True;
+                    numTop3True=isTrueTopK(trueLabels.get(method),3,predictions)?numTop3True+1:numTop3True;
+                    numTop5True=isTrueTopK(trueLabels.get(method),5,predictions)?numTop5True+1:numTop5True;
+                    numTop10True=isTrueTopK(trueLabels.get(method),10,predictions)?numTop10True+1:numTop10True;
 
 //                    }
                 }

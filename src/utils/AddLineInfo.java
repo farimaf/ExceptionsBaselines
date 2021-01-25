@@ -20,10 +20,10 @@ public class AddLineInfo {
                 BufferedReader bf = new BufferedReader(new FileReader(positionedFilePath));
                 String line="";
                 while ((line= bf.readLine())!=null) {
-                    String[] lineSplit = line.split("@#@");
-                    String[] lineMethodSplit = lineSplit[1].split("#");
-                    String bodyTokens = lineMethodSplit[lineMethodSplit.length - 3];
-                    if (!bodyTokens.contains("#")) {
+                    if (!line.contains(",#")) {
+                        String[] lineSplit = line.split("@#@");
+                        String[] lineMethodSplit = lineSplit[1].split("#");
+                        String bodyTokens = lineMethodSplit[lineMethodSplit.length - 3];
                         String[] bodyTokensSplit = bodyTokens.split("\\),");
                         String[] indexes = lineMethodSplit[lineMethodSplit.length - 1].split(",");
                         int startIndex = Integer.parseInt(indexes[0]);
@@ -53,9 +53,14 @@ public class AddLineInfo {
                     String[] indexes = lineMethodSplit[lineMethodSplit.length - 1].split(",");
                     String excpetions=lineMethodSplit[lineMethodSplit.length-2];
                     String lineToConsider=lineSplit[0]+"#"+excpetions+"#"+indexes[0]+","+indexes[1];
-                    Integer[] lineNums=linesPositionInfoMap.get(lineToConsider);
-                    String lineToWrite=line+"#"+lineNums[0]+","+lineNums[1];
-                    pw.write(lineToWrite+System.lineSeparator());
+                    if(linesPositionInfoMap.containsKey(lineToConsider)) {
+                        Integer[] lineNums = linesPositionInfoMap.get(lineToConsider);
+                        String lineToWrite = line + "#" + lineNums[0] + "," + lineNums[1];
+                        pw.write(lineToWrite + System.lineSeparator());
+                    }
+                    else {
+                        System.out.println("Not Found: "+line);
+                    }
                 }
 
                 pw.close();

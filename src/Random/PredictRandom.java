@@ -3,10 +3,7 @@ package Random;
 import ExAssRep.Properties;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
+import java.util.*;
 import java.util.regex.Pattern;
 
 public class PredictRandom {
@@ -121,11 +118,12 @@ public class PredictRandom {
 
     private static ArrayList<String> predictExcepMethod(){
         ArrayList<String> preds=new ArrayList<>();
+        Random generator = new Random(0);
         for (int i = 0; i <10 ; i++) {
 
-            int random_int = (int)(Math.random() * ((totalFreqNum-1) - 0 + 1) + 0);
+            int random_int = generator.nextInt(totalFreqNum);
             while (preds.contains(excepFreqMap.get(random_int))){
-                random_int = (int)(Math.random() * ((totalFreqNum-1) - 0 + 1) + 0);
+                random_int = generator.nextInt(totalFreqNum);
             }
             preds.add(excepFreqMap.get(random_int));
 

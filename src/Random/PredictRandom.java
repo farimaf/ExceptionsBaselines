@@ -123,9 +123,9 @@ public class PredictRandom {
         ArrayList<String> preds=new ArrayList<>();
         for (int i = 0; i <10 ; i++) {
 
-            int random_int = (int)(Math.random() * (totalFreqNum - 0 + 1) + 0);
+            int random_int = (int)(Math.random() * ((totalFreqNum-1) - 0 + 1) + 0);
             while (preds.contains(excepFreqMap.get(random_int))){
-                random_int = (int)(Math.random() * (totalFreqNum - 0 + 1) + 0);
+                random_int = (int)(Math.random() * ((totalFreqNum-1) - 0 + 1) + 0);
             }
             preds.add(excepFreqMap.get(random_int));
 

@@ -44,7 +44,11 @@ public class getTrainTestSet {
 
                 bf = new BufferedReader(new FileReader(testsetPath));
                 line="";
+                int negativeIndexes=0;
+                int not2numsign=0;
+                int lineNum=0;
                 while ((line= bf.readLine())!=null){
+                    lineNum++;
                     String[] lineSplit=line.split("@#@");
                     String[] lineMethodSplit=lineSplit[1].split("#");
                     if (testSetNames.containsKey(lineSplit[0]+"#"+lineMethodSplit[2])){
@@ -77,22 +81,21 @@ public class getTrainTestSet {
                             }
 
                         }
-//                        else {
-//                            System.out.println(whatToLook);
-//
-//                        }
+                        else {
+                            System.out.println(whatToLook);
+
+                        }
 //                    }
                 }
 
                 pwTest.close();
                 pwTrain.close();
 //                pwDebug.close();
-//                System.out.println("num neg index: "+negativeIndexes);
-////                System.out.println("num not 2 num sign: "+not2numsign);
-//                System.out.println("file len: "+lineNum);
-//                System.out.println("len 3 num: "+len3);
-//                System.out.println("train set len "+trainSetNames.size());
-//                System.out.println("test set len "+testSetNames.size());
+                System.out.println("num neg index: "+negativeIndexes);
+//                System.out.println("num not 2 num sign: "+not2numsign);
+                System.out.println("file len: "+lineNum);
+                System.out.println("train set len "+trainSetNames.size());
+                System.out.println("test set len "+testSetNames.size());
 
 //                for (int key:lens.keySet()){
 //                    System.out.println(key+ ": "+ lens.get(key));

@@ -138,6 +138,9 @@ public class PredictRandom {
         int counter=0;
         for(String pred:predictions){
             counter++;
+            System.out.println("========================");
+            System.out.println(pred);
+            System.out.println(trueLabel);
             if(pred.equals(trueLabel)  && counter<=k){
                 isTrue=true;
                 break;

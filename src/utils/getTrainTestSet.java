@@ -33,30 +33,26 @@ public class getTrainTestSet {
                     String[] lineSplit=line.split("@#@");
                     String[] lineMethodSplit=lineSplit[1].split("#");
                     if (trainSetNames.containsKey(lineSplit[0]+"#"+lineMethodSplit[2])){
-                        trainSetNames.put(lineSplit[0]+"#"+lineMethodSplit[2]+"#"+lineMethodSplit[4],trainSetNames.get(lineSplit[0]+"#"+lineMethodSplit[2])+1);
+                        trainSetNames.put(lineSplit[0]+"#"+lineMethodSplit[2],trainSetNames.get(lineSplit[0]+"#"+lineMethodSplit[2])+1);
 
                     }
                     else{
-                        trainSetNames.put(lineSplit[0]+"#"+lineMethodSplit[2]+"#"+lineMethodSplit[4],1);
+                        trainSetNames.put(lineSplit[0]+"#"+lineMethodSplit[2],1);
                     }
 
                 }
 
                 bf = new BufferedReader(new FileReader(testsetPath));
                 line="";
-                int negativeIndexes=0;
-                int not2numsign=0;
-                int lineNum=0;
                 while ((line= bf.readLine())!=null){
-                    lineNum++;
                     String[] lineSplit=line.split("@#@");
                     String[] lineMethodSplit=lineSplit[1].split("#");
                     if (testSetNames.containsKey(lineSplit[0]+"#"+lineMethodSplit[2])){
-                        testSetNames.put(lineSplit[0]+"#"+lineMethodSplit[2]+"#"+lineMethodSplit[4],testSetNames.get(lineSplit[0]+"#"+lineMethodSplit[2])+1);
+                        testSetNames.put(lineSplit[0]+"#"+lineMethodSplit[2],testSetNames.get(lineSplit[0]+"#"+lineMethodSplit[2])+1);
 
                     }
                     else{
-                        testSetNames.put(lineSplit[0]+"#"+lineMethodSplit[2]+"#"+lineMethodSplit[4],1);
+                        testSetNames.put(lineSplit[0]+"#"+lineMethodSplit[2],1);
                     }
                 }
 
@@ -67,7 +63,7 @@ public class getTrainTestSet {
                     String[] lineSplit=line.split("@#@");
                     String[] lineMethodSplit=lineSplit[1].split("#");
 
-                    String whatToLook=lineSplit[0]+"#"+lineMethodSplit[1]+"#"+lineMethodSplit[3];
+                    String whatToLook=lineSplit[0]+"#"+lineMethodSplit[1];
 
                         if (trainSetNames.containsKey(whatToLook)) {
                             if(trainSetNames.get(whatToLook)>0) {
@@ -81,21 +77,22 @@ public class getTrainTestSet {
                             }
 
                         }
-                        else {
-                            System.out.println(whatToLook);
-
-                        }
+//                        else {
+//                            System.out.println(whatToLook);
+//
+//                        }
 //                    }
                 }
 
                 pwTest.close();
                 pwTrain.close();
 //                pwDebug.close();
-                System.out.println("num neg index: "+negativeIndexes);
-//                System.out.println("num not 2 num sign: "+not2numsign);
-                System.out.println("file len: "+lineNum);
-                System.out.println("train set len "+trainSetNames.size());
-                System.out.println("test set len "+testSetNames.size());
+//                System.out.println("num neg index: "+negativeIndexes);
+////                System.out.println("num not 2 num sign: "+not2numsign);
+//                System.out.println("file len: "+lineNum);
+//                System.out.println("len 3 num: "+len3);
+//                System.out.println("train set len "+trainSetNames.size());
+//                System.out.println("test set len "+testSetNames.size());
 
 //                for (int key:lens.keySet()){
 //                    System.out.println(key+ ": "+ lens.get(key));

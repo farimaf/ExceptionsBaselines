@@ -33,11 +33,11 @@ public class getTrainTestSet {
                     String[] lineSplit=line.split("@#@");
                     String[] lineMethodSplit=lineSplit[1].split("#");
                     if (trainSetNames.containsKey(lineSplit[0]+"#"+lineMethodSplit[2])){
-                        trainSetNames.put(lineSplit[0]+"#"+lineMethodSplit[2],trainSetNames.get(lineSplit[0]+"#"+lineMethodSplit[2])+1);
+                        trainSetNames.put(lineSplit[0]+"#"+lineMethodSplit[2]+"#"+lineMethodSplit[4],trainSetNames.get(lineSplit[0]+"#"+lineMethodSplit[2])+1);
 
                     }
                     else{
-                        trainSetNames.put(lineSplit[0]+"#"+lineMethodSplit[2],1);
+                        trainSetNames.put(lineSplit[0]+"#"+lineMethodSplit[2]+"#"+lineMethodSplit[4],1);
                     }
 
                 }
@@ -48,11 +48,11 @@ public class getTrainTestSet {
                     String[] lineSplit=line.split("@#@");
                     String[] lineMethodSplit=lineSplit[1].split("#");
                     if (testSetNames.containsKey(lineSplit[0]+"#"+lineMethodSplit[2])){
-                        testSetNames.put(lineSplit[0]+"#"+lineMethodSplit[2],testSetNames.get(lineSplit[0]+"#"+lineMethodSplit[2])+1);
+                        testSetNames.put(lineSplit[0]+"#"+lineMethodSplit[2]+"#"+lineMethodSplit[4],testSetNames.get(lineSplit[0]+"#"+lineMethodSplit[2])+1);
 
                     }
                     else{
-                        testSetNames.put(lineSplit[0]+"#"+lineMethodSplit[2],1);
+                        testSetNames.put(lineSplit[0]+"#"+lineMethodSplit[2]+"#"+lineMethodSplit[4],1);
                     }
                 }
 
@@ -63,7 +63,7 @@ public class getTrainTestSet {
                     String[] lineSplit=line.split("@#@");
                     String[] lineMethodSplit=lineSplit[1].split("#");
 
-                    String whatToLook=lineSplit[0]+"#"+lineMethodSplit[1];
+                    String whatToLook=lineSplit[0]+"#"+lineMethodSplit[1]+"#"+lineMethodSplit[3];
 
                         if (trainSetNames.containsKey(whatToLook)) {
                             if(trainSetNames.get(whatToLook)>0) {

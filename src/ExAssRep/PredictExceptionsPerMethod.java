@@ -128,29 +128,34 @@ public class PredictExceptionsPerMethod {
                 int numTop10True=0;
                 int numNoPredictions=0;
                 for(String method:allPredictions.keySet()) {
-//                    if (ro_c.get(method) > pecentile50Codes) {
+               //     if (ro_c.get(method) > pecentile50Codes) {
                     String predLineToWrite = method + "@#@";
                     int counter = 0;
                     LinkedHashMap<String,Double> predictions=allPredictions.get(method);
+                    boolean isNoPrediction=false;
                     for (String excePred : predictions.keySet()) {
                         if(counter==0 && predictions.get(excePred)==0){
                             numNoPredictions++;
+                            isNoPrediction=true;
+                            break;
                         }
                         predLineToWrite += excePred + ":" + predictions.get(excePred) + ",";
                         if (++counter > 10) {
                             break;
                         }
                     }
-                    pwPred.write(predLineToWrite.substring(0, predLineToWrite.length() - 1) + System.lineSeparator());
-                    if(ro_c.get(method)>=pecentile50Codes) {
+                    if(!isNoPrediction) {
+                        pwPred.write(predLineToWrite.substring(0, predLineToWrite.length() - 1) + System.lineSeparator());
+                        //  if(ro_c.get(method)>=pecentile50Codes) {
                         numTop1True = isTrueTopK(trueLabels.get(method), 1, predictions) ? numTop1True + 1 : numTop1True;
                         numTop2True = isTrueTopK(trueLabels.get(method), 2, predictions) ? numTop2True + 1 : numTop2True;
                         numTop3True = isTrueTopK(trueLabels.get(method), 3, predictions) ? numTop3True + 1 : numTop3True;
                         numTop5True = isTrueTopK(trueLabels.get(method), 5, predictions) ? numTop5True + 1 : numTop5True;
                         numTop10True = isTrueTopK(trueLabels.get(method), 10, predictions) ? numTop10True + 1 : numTop10True;
                     }
-//                    }
-                }
+                    }
+               //     }
+              //  }
                 pwPred.close();
                 pwRo.close();
                 pwLinesWithNegIndex.close();

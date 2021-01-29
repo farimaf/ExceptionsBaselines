@@ -152,7 +152,7 @@ public class PredictExceptionsPerMethod {
                         numTop3True = isTrueTopK(trueLabels.get(method), 3, predictions) ? numTop3True + 1 : numTop3True;
                         numTop5True = isTrueTopK(trueLabels.get(method), 5, predictions) ? numTop5True + 1 : numTop5True;
                         numTop10True = isTrueTopK(trueLabels.get(method), 10, predictions) ? numTop10True + 1 : numTop10True;
-                    }
+                   }
                     }
                //     }
               //  }

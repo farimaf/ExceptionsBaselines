@@ -57,10 +57,10 @@ public class PredictRandom {
                     String[] lineSplit=line.split("@#@");
                     String[] methodExcepSplit=lineSplit[1].split("#");
 //                    String[] methods=methodExcepSplit[0].split(",");
-                    String[] exceptions=methodExcepSplit[2].split(",");
+                    String[] exceptions=methodExcepSplit[methodExcepSplit.length - 2].split(",");
                     String exceptionToConsider=exceptions[0];//cause we only consider the first exception type
                     trueLabels.put(line,exceptionToConsider);
-                    String[] indexes=methodExcepSplit[3].split(",");
+                    String[] indexes=methodExcepSplit[methodExcepSplit.length - 1].split(",");
                     int startTryIndex=Integer.parseInt(indexes[0]);
                     int endTryIndex=Integer.parseInt(indexes[1]);
                     if(startTryIndex>-1 && endTryIndex>-1) {

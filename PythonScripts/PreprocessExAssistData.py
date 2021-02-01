@@ -1,3 +1,8 @@
+#eexassist train and test set does not need preprocessing cause they are already created based on our train and test set which are already preprocessed
+filter_train=True # if we wanna filter rows that are in train too
+train_path="C:\\Users\\Farima\\OneDrive\\Data\\PhD\\drexoutputs\\PerTryNoRuntimeLiteral_AllBatchesConsolidated_Shuffled_train.txt"
+lenLine=3 #for exass data this is 3, for our tool data this is 4
+
 exception_dir="C:\\Users\\Farima\\OneDrive\\Data\\PhD\\Exception Type Recommendation\\" \
               "ExAssistReplication\\EvalBaseLines\\ExcpetionsToPredictWithFreq.txt"
 data_dir = 'C:\\Users\\Farima\\OneDrive\\Data\\PhD\\Exception Type Recommendation\\TopJavaProjects-ForEval-FSE21' \
@@ -9,14 +14,22 @@ with open(exception_dir) as file_in:
         linesplit=line.split(":")
         exceptions.add(linesplit[0])
 
+trainset = set()
+if(filter_train):
+    with open(train_path,encoding="utf-8") as file_tr:
+        trainset = set()
+        for line in file_tr:
+            bodyparts = line.strip('\n').split("@#@")[1]
+            trainset.add(bodyparts)
+
 f_out = open("C:\\Users\\Farima\\OneDrive\\Data\\PhD\\Exception Type Recommendation\\TopJavaProjects-ForEval-FSE21\\ProcessedForExAssBaseline\\PerTryNoRuntimeLiteral_AllTopProj_Post2018_PreProcessed.txt",
              "w",encoding="utf-8")
-
 with open(data_dir, 'r',encoding="utf-8") as f:
     null_cnt = 0
     mim_cnt = 0
     multi_except_cnt = 0
     no_try_cnt = 0
+    lines_in_train=0
     keep_idx = []
     prev_line = None
     num_other_excep=0
@@ -26,11 +39,17 @@ with open(data_dir, 'r',encoding="utf-8") as f:
             print('repeated line')
             continue
         method = line.strip('\n').split('@#@')[1].split('#')
-        if len(method) > 3:
+        if len(method) > lenLine:
             mim_cnt += 1
             continue
         # t1: body; t2: exception; t3: location
-        t1, t2, t3 = method[0].split(','), method[1].split(','), method[2].split(',')
+        t1, t2, t3 = method[len(method)-3].split(','), method[len(method)-2].split(','), method[len(method)-1].split(',')
+        if (filter_train):
+            lineTocheck = line.strip('\n').split('@#@')[1]
+            if(lineTocheck in trainset):
+                lines_in_train+=1
+                continue
+
         if len(t2) > 1:
             multi_except_cnt += 1
         excep=t2[0]
@@ -42,6 +61,7 @@ with open(data_dir, 'r',encoding="utf-8") as f:
             continue
         f_out.write(line)
 f_out.close()
+print("num in train: "+str(lines_in_train))
 print("num more than one excep: "+str(multi_except_cnt))
 print("num neg index: "+str(no_try_cnt))
 print("num method in method "+str(mim_cnt))

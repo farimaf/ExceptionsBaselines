@@ -159,15 +159,15 @@ public class PredictExceptionsPerMethod {
                 pwPred.close();
                 pwRo.close();
                 pwLinesWithNegIndex.close();
-                System.out.println("Num all samples: "+allPredictions.size());
+                System.out.println("Num all samples: "+allPredictions.size()+ " (Makhraj in acc calculations)");
                 System.out.println("Num rows in true labels: "+trueLabels.size());
                 System.out.println("total num lines read: "+numLine);
                 System.out.println("Num no predictions: "+numNoPredictions);
-                System.out.println("Num top 1 true predictions: "+numTop1True);
-                System.out.println("Num top 2 true predictions: "+numTop2True);
-                System.out.println("Num top 3 true predictions: "+numTop3True);
-                System.out.println("Num top 5 true predictions: "+numTop5True);
-                System.out.println("Num top 10 true predictions: "+numTop10True);
+                System.out.println("Num top 1 true predictions: "+numTop1True+ " : "+((float)numTop1True/allPredictions.size()));
+                System.out.println("Num top 2 true predictions: "+numTop2True+ " : "+((float)numTop2True/allPredictions.size()));
+                System.out.println("Num top 3 true predictions: "+numTop3True+ " : "+((float)numTop3True/allPredictions.size()));
+                System.out.println("Num top 5 true predictions: "+numTop5True+ " : "+((float)numTop5True/allPredictions.size()));
+                System.out.println("Num top 10 true predictions: "+numTop10True+ " : "+((float)numTop10True/allPredictions.size()));
             }
             catch (IOException e){
                 e.printStackTrace();

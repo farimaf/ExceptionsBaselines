@@ -1,7 +1,5 @@
 package ExAssRep;
 
-import javafx.geometry.Pos;
-
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;

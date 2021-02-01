@@ -133,10 +133,12 @@ public class getTrainTestSetWithLineInfo {
                                 }
                             }
                             if (candidRow.equals("train")){
-                                pwTrain.write(row.line + System.lineSeparator());
+                                String lineToWrite=row.line.substring(0,row.line.lastIndexOf("#"));
+                                pwTrain.write(lineToWrite + System.lineSeparator());
                             }
                             else if(candidRow.equals("test")){
-                                pwTest.write(row.line + System.lineSeparator());
+                                String lineToWrite=row.line.substring(0,row.line.lastIndexOf("#"));
+                                pwTest.write(lineToWrite + System.lineSeparator());
                             }
 
                         }
@@ -146,7 +148,8 @@ public class getTrainTestSetWithLineInfo {
                     else if(trainSetNames.containsKey(key)){
                         ArrayList<PositionRow> currentRows=mainfileNames.get(key);
                         for (PositionRow row: currentRows){
-                            pwTrain.write(row.line + System.lineSeparator());
+                            String lineToWrite=row.line.substring(0,row.line.lastIndexOf("#"));
+                            pwTrain.write(lineToWrite + System.lineSeparator());
                         }
                         trainSetNames.remove(key);
 
@@ -154,7 +157,8 @@ public class getTrainTestSetWithLineInfo {
                     else if(testSetNames.containsKey(key)){
                         ArrayList<PositionRow> currentRows=mainfileNames.get(key);
                         for (PositionRow row: currentRows){
-                            pwTest.write(row.line + System.lineSeparator());
+                            String lineToWrite=row.line.substring(0,row.line.lastIndexOf("#"));
+                            pwTest.write(lineToWrite + System.lineSeparator());
                         }
                         testSetNames.remove(key);
 

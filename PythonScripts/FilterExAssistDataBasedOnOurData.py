@@ -16,7 +16,7 @@ with open(our_data_loc,encoding="utf-8") as file_filtered:
         lineToConsider=address+"@#@"+exceptions
         our_dataset.add(lineToConsider)
 
-with open(our_data_loc,encoding="utf-8") as file_exAss:
+with open(exassist_data_loc,encoding="utf-8") as file_exAss:
     for line in file_exAss:
         linesplit=line.split("@#@")
         address=linesplit[0]

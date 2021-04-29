@@ -12,7 +12,8 @@ public class PredictRandom {
     private static HashMap<String, ArrayList<String>> allPredictions=new HashMap<>();
     private static int totalFreqNum=0;
     public static String mode;
-
+    public static int seed;
+    public static Random generator;
     private static void loadExceptions(){
         try {
             BufferedReader bf = new BufferedReader(new FileReader(Properties.pathToExceptionsFreqFile));
@@ -36,8 +37,11 @@ public class PredictRandom {
     }
     public static void main(String[] args) {
 
-        if(args.length==2){
+        if(args.length==3){
             mode=args[1];
+            seed=Integer.parseInt(args[2]);
+            generator = new Random(seed);
+
             loadExceptions();
             String predDir="predictions_random";
             File directory = new File(predDir);
@@ -118,7 +122,6 @@ public class PredictRandom {
 
     private static ArrayList<String> predictExcepMethod(){
         ArrayList<String> preds=new ArrayList<>();
-        Random generator = new Random(0);
         for (int i = 0; i <10 ; i++) {
 
             int random_int = generator.nextInt(totalFreqNum);

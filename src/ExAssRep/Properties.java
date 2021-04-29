@@ -25,8 +25,8 @@ public class Properties {
             pathToExceptionsFreqFile="C:\\Users\\Farima\\OneDrive\\Data\\PhD\\Exception Type Recommendation\\ExAssistReplication\\" +
                     "EvalBaseLines\\ExcpetionsToPredictWithFreq.txt";
         } else if(mode.equals("linux")){
-            pathToMusFile="/scratch/mondego/local/farima/drex/baselines/ExceptionsBaselines/src/train/Mus_Train_PerTryNoRunTimeLiteral_Consolidated_ExAssist.txt";
-            pathToRosFile="/scratch/mondego/local/farima/drex/baselines/ExceptionsBaselines/src/train/Ros_Train_PerTryNoRunTimeLiteral_Consolidated_ExAssist.txt";
+            pathToMusFile="/scratch/mondego/local/farima/drex/baselines/ExceptionsBaselines/src/train/Mus_Train_PerTryNoRunTimeLiteral_Consolidated_ExAssist_WithLineInfo.txt";
+            pathToRosFile="/scratch/mondego/local/farima/drex/baselines/ExceptionsBaselines/src/train/Ros_Train_PerTryNoRunTimeLiteral_Consolidated_ExAssist_WithLineInfo.txt";
             pathToExceptionsFile="/scratch/mondego/local/farima/drex/baselines/ExceptionsBaselines/ExcpetionsToPredict.txt";
             pathToExceptionsFreqFile="/scratch/mondego/local/farima/drex/baselines/ExceptionsBaselines/ExcpetionsToPredictWithFreq.txt";
         }

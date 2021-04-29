@@ -1,12 +1,10 @@
 #eexassist train and test set does not need preprocessing cause they are already created based on our train and test set which are already preprocessed
-filter_train=True # if we wanna filter rows that are in train too
-train_path="C:\\Users\\Farima\\OneDrive\\Data\\PhD\\drexoutputs\\PerTryNoRuntimeLiteral_AllBatchesConsolidated_Shuffled_train.txt"
-lenLine=3 #for exass data this is 3, for our tool data this is 4
+filter_train=False # if we wanna filter rows that are in train too
+train_path="/scratch/mondego/local/farima/drex/baselines/ExceptionsBaselines/src/Train_PerTryNoRunTimeLiteral_Consolidated_ExAssist_WithLineInfo.txt"
+lenLine=4 #for exass data this is 3, for our tool data this is 4
 
-exception_dir="C:\\Users\\Farima\\OneDrive\\Data\\PhD\\Exception Type Recommendation\\" \
-              "ExAssistReplication\\EvalBaseLines\\ExcpetionsToPredictWithFreq.txt"
-data_dir = 'C:\\Users\\Farima\\OneDrive\\Data\\PhD\\Exception Type Recommendation\\TopJavaProjects-ForEval-FSE21' \
-           '\\ProcessedForExAssBaseline\\PerTryNoRuntimeLiteral_AllTopProj_Post2018.txt'
+exception_dir="/scratch/mondego/local/farima/drex/baselines/ExceptionsBaselines/ExcpetionsToPredictWithFreq.txt"
+data_dir = '/scratch/mondego/local/farima/datasets/FamousProjects/Jan30-2021/processed-files/OurTool/forYadong/PerTryNoRuntimeLiteral_repos-zips_xerces2-j-trunk.txt'
 
 with open(exception_dir) as file_in:
     exceptions = set()
@@ -22,7 +20,7 @@ if(filter_train):
             bodyparts = line.strip('\n').split("@#@")[1]
             trainset.add(bodyparts)
 
-f_out = open("C:\\Users\\Farima\\OneDrive\\Data\\PhD\\Exception Type Recommendation\\TopJavaProjects-ForEval-FSE21\\ProcessedForExAssBaseline\\PerTryNoRuntimeLiteral_AllTopProj_Post2018_PreProcessed.txt",
+f_out = open("/scratch/mondego/local/farima/datasets/FamousProjects/Jan30-2021/processed-files/OurTool/forYadong/PerTryNoRuntimeLiteral_repos-zips_xerces2-j-trunk-PreProcessed.txt",
              "w",encoding="utf-8")
 with open(data_dir, 'r',encoding="utf-8") as f:
     null_cnt = 0
@@ -40,6 +38,7 @@ with open(data_dir, 'r',encoding="utf-8") as f:
             continue
         method = line.strip('\n').split('@#@')[1].split('#')
         if len(method) > lenLine:
+            print(line)
             mim_cnt += 1
             continue
         # t1: body; t2: exception; t3: location
